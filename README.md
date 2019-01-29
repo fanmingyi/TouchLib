@@ -25,6 +25,7 @@ rootTouch.click(x,y,finger)
 ```
 使用第finger个手指点击屏幕(x,y)坐标。
 finger参数为一个long类型，表示你用哪只手指点击。因为我们知道Android 是可以多点触摸的
+返回值为boolean ,如果成功那么返回true
 如下代码
 ```java
 //使用第0个手指点击屏幕(100,100)处
@@ -39,6 +40,7 @@ touchSwip(long startX, long startY, long endX, long endY, long finger, long dura
 ```
 在duration(毫秒)设定的时间内匀速滑动屏幕从（starX，starY）到(endX，endY）
 finger为使用哪个手指滑动
+返回值为boolean ,如果成功那么返回true
 
 > 自定义事件
 
@@ -48,14 +50,20 @@ finger为使用哪个手指滑动
 ```java
  public boolean touchDown(long x, long y, long finger);
 ```
+返回值为boolean ,如果成功那么返回true
+
 > 模拟手指移动
 ```java
  public boolean touchMove(long x, long y, long finger);
 ```
+返回值为boolean ,如果成功那么返回true
+
 > 模拟手指弹起
 ```java
   public boolean touchUp(long finger);
 ```
+返回值为boolean ,如果成功那么返回true
+
 
 > 自定义事件案例
 
