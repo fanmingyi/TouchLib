@@ -15,7 +15,7 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        RootTouch  rootTouch = new RootTouch(this);
+          rootTouch = new RootTouch(this);
         boolean init = rootTouch.init();
     }
 
@@ -24,7 +24,11 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void run() {
                 super.run();
-                rootTouch.touchSwip(100,300,500,300,0,5000);
+                try {
+                    rootTouch.touchSwip(100,300,500,300,0,5000);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
 
             }
         }.start();
