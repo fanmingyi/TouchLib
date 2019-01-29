@@ -1,4 +1,4 @@
-package indi.fmy.example;
+package com.example.example;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getTargetContext();
 
-        assertEquals("indi.fmy.example", appContext.getPackageName());
+        assertEquals("com.example.example", appContext.getPackageName());
     }
 }

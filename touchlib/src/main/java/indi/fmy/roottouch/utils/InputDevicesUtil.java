@@ -1,6 +1,5 @@
 package indi.fmy.roottouch.utils;
 
-import android.support.annotation.Nullable;
 import android.view.InputDevice;
 
 /**
@@ -9,7 +8,6 @@ import android.view.InputDevice;
 
 public class InputDevicesUtil {
 
-    @Nullable
     public static String getTouchDeviceName() {
         for (int id : InputDevice.getDeviceIds()) {
             InputDevice device = InputDevice.getDevice(id);

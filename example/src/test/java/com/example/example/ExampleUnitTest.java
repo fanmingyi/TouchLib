@@ -1,4 +1,4 @@
-package indi.fmy.example;
+package com.example.example;
 
 import org.junit.Test;
 

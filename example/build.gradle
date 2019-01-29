@@ -6,7 +6,7 @@ android {
 
 
     defaultConfig {
-        applicationId "indi.fmy.example"
+        applicationId "com.example.example"
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
