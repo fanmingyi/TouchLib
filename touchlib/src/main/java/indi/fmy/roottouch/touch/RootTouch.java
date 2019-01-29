@@ -71,39 +71,35 @@ public class RootTouch {
     native boolean sendOperationCmd(long type, long code, long value);
 
 
-    public void touchDown(long x, long y, long finger) {
+    public boolean touchDown(long x, long y, long finger) {
         check();
-        touchHelper.touchDown(x, y, finger);
+        return touchHelper.touchDown(x, y, finger);
     }
 
-    public void touchUp(long finger) {
+    public boolean touchUp(long finger) {
         check();
-        touchHelper.touchUp(finger);
+        return touchHelper.touchUp(finger);
     }
 
-    public void check() {
-        if (!initSuccess || isExit) {
-            if (isExit) {
-                throw new OperationInvalid("当前对象已经退出，请重新init");
-            } else {
-                throw new OperationInvalid("当前对象初始化未成功");
-            }
-        }
+
+    public boolean touchMove(long x, long y, long finger) {
+        check();
+        return touchHelper.touchMove(x, y, finger);
     }
 
-    public void touchMove(long x, long y, long finger) {
+    public boolean click(long x, long y, long finger) {
         check();
-        touchHelper.touchMove(x, y, finger);
+        return touchHelper.click(x, y, finger);
+
     }
 
-    public void click(long x, long y, long finger){
+    public boolean touchSwip(long startX, long startY, long endX, long endY, long finger, long duration) {
         check();
-        touchHelper.click(x, y, finger);
-
+        return touchHelper.touchSwip(startX, startY, endX, endY, finger, duration);
     }
 
     public boolean exit() {
-        isExit=true;
+        isExit = true;
         touchHelper.exit();
         return nativeExit();
     }
@@ -114,10 +110,21 @@ public class RootTouch {
     }
 
 
-    static class OperationInvalid extends RuntimeException {
+    static class TouchOperationInvalid extends RuntimeException {
 
-        public OperationInvalid(String message) {
+        public TouchOperationInvalid(String message) {
             super(message);
+        }
+    }
+
+
+    public void check() {
+        if (!initSuccess || isExit) {
+            if (isExit) {
+                throw new TouchOperationInvalid("当前对象已经退出，请重新init");
+            } else {
+                throw new TouchOperationInvalid("当前对象初始化未成功");
+            }
         }
     }
 }

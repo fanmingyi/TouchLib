@@ -15,14 +15,19 @@ public class TestActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_test);
-        rootTouch = new RootTouch(this);
+        RootTouch  rootTouch = new RootTouch(this);
         boolean init = rootTouch.init();
     }
 
     public void onClickDown(View view) throws InterruptedException {
-        rootTouch.click(300,300,1);
-        rootTouch.exit();
-        rootTouch.click(300,300,1);
+        new Thread(){
+            @Override
+            public void run() {
+                super.run();
+                rootTouch.touchSwip(100,300,500,300,0,5000);
+
+            }
+        }.start();
     }
 
     public void onClickUp(View view) throws InterruptedException {

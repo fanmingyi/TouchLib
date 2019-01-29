@@ -1,5 +1,8 @@
 package indi.fmy.roottouch.touch;
 
+import android.util.SparseArray;
+
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -12,6 +15,8 @@ import static indi.fmy.roottouch.jconst.InputEventCodesConst.BTN_TOUCH_DOWN;
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.EV_ABS;
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.EV_KEY;
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.EV_SYN;
+import static java.lang.Math.abs;
+import static java.lang.Math.pow;
 
 public class TouchHelper {
 
@@ -34,36 +39,123 @@ public class TouchHelper {
         return mRootTouch.sendOperationCmd(type, code, value);
     }
 
-    public void touchDown(long x, long y, long finger) {
+    public boolean touchDown(long x, long y, long finger) {
         fingerSet.add(finger);
-        sendOperationCmd(EV_ABS, ABS_MT_SLOT, finger);
-        sendOperationCmd(EV_ABS, ABS_MT_TRACKING_ID, finger);
-        sendOperationCmd(EV_KEY, BTN_TOUCH, BTN_TOUCH_DOWN);
-        sendOperationCmd(EV_ABS, ABS_MT_POSITION_X, x);
-        sendOperationCmd(EV_ABS, ABS_MT_POSITION_Y, y);
-        sendOperationCmd(EV_SYN, 0, 0);
+
+        Set<Boolean> relSet = new HashSet<>();
+        boolean rel;
+
+        rel = sendOperationCmd(EV_ABS, ABS_MT_SLOT, finger);
+        relSet.add(rel);
+
+        rel = sendOperationCmd(EV_ABS, ABS_MT_TRACKING_ID, finger);
+        relSet.add(rel);
+
+        rel = sendOperationCmd(EV_KEY, BTN_TOUCH, BTN_TOUCH_DOWN);
+        relSet.add(rel);
+
+        rel = sendOperationCmd(EV_ABS, ABS_MT_POSITION_X, x);
+        relSet.add(rel);
+
+        rel = sendOperationCmd(EV_ABS, ABS_MT_POSITION_Y, y);
+        relSet.add(rel);
+
+
+        rel = sendOperationCmd(EV_SYN, 0, 0);
+        relSet.add(rel);
+
+        return !relSet.contains(Boolean.FALSE);
+
     }
 
-    public void touchUp(long finger) {
+    public boolean touchUp(long finger) {
         fingerSet.remove(finger);
-        sendOperationCmd(EV_ABS, ABS_MT_SLOT, finger);
-        sendOperationCmd(EV_ABS, ABS_MT_TRACKING_ID, -1);
-        sendOperationCmd(EV_SYN, 0, 0);
+
+        Set<Boolean> relSet = new HashSet<>();
+        boolean rel;
+
+
+        rel = sendOperationCmd(EV_ABS, ABS_MT_SLOT, finger);
+        relSet.add(rel);
+
+        rel = sendOperationCmd(EV_ABS, ABS_MT_TRACKING_ID, -1);
+        relSet.add(rel);
+
+        rel = sendOperationCmd(EV_SYN, 0, 0);
+        relSet.add(rel);
+
+
+        return !relSet.contains(Boolean.FALSE);
 
 
     }
 
-    public void touchMove(long x, long y, long finger) {
-        sendOperationCmd(EV_ABS, ABS_MT_SLOT, finger);
-        sendOperationCmd(EV_KEY, BTN_TOUCH, BTN_TOUCH_DOWN);
-        sendOperationCmd(EV_ABS, ABS_MT_POSITION_X, x);
-        sendOperationCmd(EV_ABS, ABS_MT_POSITION_Y, y);
-        sendOperationCmd(EV_SYN, 0, 0);
+    public boolean touchMove(long x, long y, long finger) {
+
+        Set<Boolean> relSet = new HashSet<>();
+        boolean rel;
+
+
+        rel = sendOperationCmd(EV_ABS, ABS_MT_SLOT, finger);
+        relSet.add(rel);
+        rel = sendOperationCmd(EV_KEY, BTN_TOUCH, BTN_TOUCH_DOWN);
+        relSet.add(rel);
+        rel = sendOperationCmd(EV_ABS, ABS_MT_POSITION_X, x);
+        relSet.add(rel);
+        rel = sendOperationCmd(EV_ABS, ABS_MT_POSITION_Y, y);
+        relSet.add(rel);
+        rel = sendOperationCmd(EV_SYN, 0, 0);
+        relSet.add(rel);
+        return !relSet.contains(Boolean.FALSE);
     }
 
-    public void click(long x, long y, long finger) {
-        touchDown(x,y,finger);
-        touchUp(finger);
+    public boolean click(long x, long y, long finger) {
 
+        Set<Boolean> relSet = new HashSet<>();
+        boolean rel;
+
+        rel = touchDown(x, y, finger);
+        relSet.add(rel);
+
+        rel = touchUp(finger);
+        relSet.add(rel);
+
+        return !relSet.contains(Boolean.FALSE);
+
+    }
+
+
+    public boolean touchSwip(long startX, long startY, long endX, long endY, long finger, long duration) {
+        Set<Boolean> relSet = new HashSet<>();
+        boolean rel;
+
+        rel = touchDown(startX, startY, finger);
+
+        relSet.add(rel);
+        double xiDistance = abs(startX - endX);
+
+        double yiDistance = abs(startY - endY);
+
+        double xDelta = xiDistance / duration;
+
+        double yDelta = yiDistance / duration;
+
+        for (long i = 0; i < duration; i++) {
+            rel = touchMove((long) (xDelta * i + startX), (long) (yDelta * i + startY), finger);
+            relSet.add(rel);
+            try {
+                Thread.sleep(1);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+
+
+        }
+
+
+        rel = touchUp(finger);
+        relSet.add(rel);
+
+        return !relSet.contains(Boolean.FALSE);
     }
 }
