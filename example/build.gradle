@@ -1,45 +1,28 @@
-apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
-publish {
-    userOrg = 'fanmingyicode'      //bintray注册的用户名
-    groupId = 'indi.fmy'         //compile引用时的第1部分groupId
-    artifactId = 'touchLib'     //compile引用时的第2部分项目名
-    publishVersion = '1.0.0'    //compile引用时的第3部分版本号
-    desc = 'Android simulates a touch screen'
-    website = 'https://github.com/fanmingyi/TouchLib'
-}
-
+apply plugin: 'com.android.application'
 
 android {
-    lintOptions {
-        abortOnError false
-    }
-
     compileSdkVersion 28
+
+
+
     defaultConfig {
-//        applicationId "indi.fmy.roottouch"
+        applicationId "indi.fmy.example"
         minSdkVersion 14
         targetSdkVersion 28
         versionCode 1
         versionName "1.0"
+
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
-        externalNativeBuild {
-            cmake {
-                cppFlags ""
-            }
-        }
+
     }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
-    externalNativeBuild {
-        cmake {
-            path "src/main/cpp/CMakeLists.txt"
-        }
-    }
+
 }
 
 dependencies {
@@ -49,4 +32,5 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    implementation project(':touchlib')
 }

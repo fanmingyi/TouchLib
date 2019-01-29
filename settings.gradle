@@ -1,1 +1,1 @@
-include ':touchlib'
+include ':touchlib', ':example'
