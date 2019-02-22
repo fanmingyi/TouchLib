@@ -1,11 +1,7 @@
 package indi.fmy.roottouch.touch;
 
-import android.util.SparseArray;
-
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.Set;
-
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.ABS_MT_POSITION_X;
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.ABS_MT_POSITION_Y;
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.ABS_MT_SLOT;
@@ -16,11 +12,14 @@ import static indi.fmy.roottouch.jconst.InputEventCodesConst.EV_ABS;
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.EV_KEY;
 import static indi.fmy.roottouch.jconst.InputEventCodesConst.EV_SYN;
 import static java.lang.Math.abs;
-import static java.lang.Math.pow;
 
 public class TouchHelper {
 
     private Set<Long> fingerSet = new HashSet<>();
+
+    public Set<Long> getFingerSet() {
+        return fingerSet;
+    }
 
     private RootTouch mRootTouch;
 
@@ -126,6 +125,7 @@ public class TouchHelper {
 
 
     public boolean touchSwip(long startX, long startY, long endX, long endY, long finger, long duration) {
+
         Set<Boolean> relSet = new HashSet<>();
         boolean rel;
 

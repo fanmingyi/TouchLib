@@ -4,7 +4,7 @@ publish {
     userOrg = 'fanmingyicode'      //bintray注册的用户名
     groupId = 'indi.fmy'         //compile引用时的第1部分groupId
     artifactId = 'touchLib'     //compile引用时的第2部分项目名
-    publishVersion = '1.1.1'    //compile引用时的第3部分版本号
+    publishVersion = '1.1.2'    //compile引用时的第3部分版本号
     desc = 'Android simulates a touch screen'
     website = 'https://github.com/fanmingyi/TouchLib'
 }

@@ -98,9 +98,28 @@ public class RootTouch {
         return touchHelper.touchSwip(startX, startY, endX, endY, finger, duration);
     }
 
+    public boolean forceExit() {
+        isExit = true;
+
+        for (int i = 0; i < 20; i++) {
+            touchHelper.getFingerSet().add(((long) i));
+        }
+
+        touchHelper.exit();
+        touchHelper.exit();
+        try {
+            Thread.sleep(1000);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        return nativeExit();
+    }
+
     public boolean exit() {
         isExit = true;
+
         touchHelper.exit();
+
         return nativeExit();
     }
 
