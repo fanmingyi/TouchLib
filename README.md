@@ -5,6 +5,11 @@ Android模拟触摸屏幕库(Android simulates a touch screen)
 
 ## 如何使用
 
+添加到你的gradle中
+```
+    compile 'indi.fmy:touchLib:+'
+```
+
 1. 创建触摸对象
 
 ```java
